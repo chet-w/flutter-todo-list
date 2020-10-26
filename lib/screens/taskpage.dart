@@ -18,6 +18,10 @@ class _TaskPageState extends State<TaskPage> {
   int taskId = 0;
   DatabaseHelper databaseHelper = DatabaseHelper();
 
+  FocusNode titleNode;
+  FocusNode descriptionNode;
+  FocusNode todoNode;
+
   @override
   void initState() {
     if (widget.task != null) {
@@ -25,7 +29,21 @@ class _TaskPageState extends State<TaskPage> {
       taskTitle = widget.task.title;
       taskId = widget.task.id;
     }
+
+    titleNode = FocusNode();
+    descriptionNode = FocusNode();
+    todoNode = FocusNode();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    titleNode.dispose();
+    descriptionNode.dispose();
+    todoNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -58,6 +76,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
+                          focusNode: titleNode,
                           controller: TextEditingController()..text = taskTitle,
                           decoration: InputDecoration(
                             hintText: "Enter a title",
@@ -79,6 +98,7 @@ class _TaskPageState extends State<TaskPage> {
                               } else {
                                 print("Update the task!");
                               }
+                              descriptionNode.requestFocus();
                             }
                           },
                         ),
@@ -91,6 +111,10 @@ class _TaskPageState extends State<TaskPage> {
                       bottom: 24.0,
                     ),
                     child: TextField(
+                      focusNode: descriptionNode,
+                      onSubmitted: (value) {
+                        todoNode.requestFocus();
+                      },
                       decoration: InputDecoration(
                         hintText: "Enter a description",
                         border: InputBorder.none,
@@ -148,6 +172,7 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                         Expanded(
                           child: TextField(
+                            focusNode: todoNode,
                             onSubmitted: (value) async {
                               if (value != "") {
                                 DatabaseHelper databaseHelper =
