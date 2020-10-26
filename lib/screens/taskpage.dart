@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/database_helper.dart';
+import 'package:flutter_todo/models/task.dart';
 import 'package:flutter_todo/widgets/todo.dart';
 
 class TaskPage extends StatefulWidget {
@@ -45,6 +47,16 @@ class _TaskPageState extends State<TaskPage> {
                             fontSize: 24.0,
                             color: Color(0xFF211552),
                           ),
+                          onSubmitted: (value) async {
+                            if(value != "") {
+                              DatabaseHelper databaseHelper = DatabaseHelper();
+                              Task newTask = Task(
+                                title: value,
+                              );
+                              await databaseHelper.insertTask(newTask);
+                              print("New task created!");
+                            }
+                          },
                         ),
                       ),
                     ],
