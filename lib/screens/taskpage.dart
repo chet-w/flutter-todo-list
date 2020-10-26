@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/widgets/todos.dart';
 
 class TaskPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _TaskPageState extends State<TaskPage> {
         child: Container(
           width: double.infinity,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -62,7 +64,8 @@ class _TaskPageState extends State<TaskPage> {
                     color: Color(0xFF211552),
                   ),
                 ),
-              )
+              ),
+              Todos(),
             ],
           ),
         ),
