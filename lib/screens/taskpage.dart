@@ -14,6 +14,17 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+
+  String taskTitle = "";
+
+  @override
+  void initState() {
+    if(widget.task != null) {
+      taskTitle = widget.task.title;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +55,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
+                          controller: TextEditingController()..text = taskTitle,
                           decoration: InputDecoration(
                             hintText: "Enter a title",
                             border: InputBorder.none,
@@ -91,18 +103,6 @@ class _TaskPageState extends State<TaskPage> {
                   Todo(
                     text: "First",
                     isDone: true,
-                  ),
-                  Todo(
-                    text: "Second",
-                    isDone: true,
-                  ),
-                  Todo(
-                    text: "Third",
-                    isDone: false,
-                  ),
-                  Todo(
-                    text: "Fourth",
-                    isDone: false,
                   ),
                 ],
               ),

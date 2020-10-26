@@ -45,9 +45,10 @@ class _HomePageState extends State<HomePage> {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TaskPage(task: snapshot.data[index]))
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TaskPage(
+                                            task: snapshot.data[index])));
                               },
                               child:
                                   TaskCard(title: snapshot.data[index].title),
