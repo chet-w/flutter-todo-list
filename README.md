@@ -1,16 +1,29 @@
-# flutter_todo
+# Flutter Todo App
 
-A new Flutter project.
+Basic todo app build in Flutter by following a Youtube tutorial by [TVAC Studio](https://www.youtube.com/playlist?list=PLGCjwl1RrtcSlUrd_-Z-924b3ahWISiDh) to get hands on with Flutter and learn how it works.
 
-## Getting Started
+## Demo
 
-This project is a starting point for a Flutter application.
+Flutter is a bit of work to get everything set up so here is a GIF of how the app works at this point. For more details on getting set up, see [Flutter's set up guide](https://flutter.dev/docs/get-started/install).
 
-A few resources to get you started if this is your first Flutter project:
+![The todo app in action](./assets/images/tododemo.gif "The todo app in action")
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+To run locally:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+
+# Assuming you've already got Flutter set up and you're on Mac
+
+$ git clone git@github.com:chet-w/
+flutter-todo-list.git
+
+$ cd flutter-todo-list
+
+$ open -a Simulator
+
+$ flutter run
+
+```
+
+
+
