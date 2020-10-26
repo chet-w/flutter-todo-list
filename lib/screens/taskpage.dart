@@ -15,12 +15,15 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   String taskTitle = "";
+  int taskId = 0;
   DatabaseHelper databaseHelper = DatabaseHelper();
 
   @override
   void initState() {
     if (widget.task != null) {
+      print("task from home page: ${widget.task.toMap()}");
       taskTitle = widget.task.title;
+      taskId = widget.task.id;
     }
     super.initState();
   }
@@ -103,14 +106,16 @@ class _TaskPageState extends State<TaskPage> {
                   Expanded(
                     child: FutureBuilder(
                       initialData: [],
-                      future: databaseHelper.getTodos(),
+                      future: databaseHelper.getTodos(taskId),
                       builder: (context, snapshot) {
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return TodoWidget(
                               text: snapshot.data[index].title,
-                              isDone: snapshot.data[index].isDone  == 0 ? false : true,
+                              isDone: snapshot.data[index].isDone == 0
+                                  ? false
+                                  : true,
                             );
                           },
                         );
@@ -150,7 +155,7 @@ class _TaskPageState extends State<TaskPage> {
                                 if (widget.task != null) {
                                   Todo newTodo = Todo(
                                     title: value,
-                                    taskId: widget.task.id,
+                                    taskId: taskId,
                                     isDone: 0,
                                   );
                                   await databaseHelper.insertTodo(newTodo);
