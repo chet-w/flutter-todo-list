@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Todo extends StatelessWidget {
+class TodoWidget extends StatelessWidget {
 
   final String text;
   final bool isDone;
 
-  const Todo({Key key, this.text, @required this.isDone}) : super(key: key);
+  const TodoWidget({Key key, this.text, @required this.isDone}) : super(key: key);
 
 
   @override
