@@ -62,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                         builder: (context) => TaskPage(),
                       ),
-                    );
+                    ).then((value) { 
+                      setState(() {});
+                    });
                   },
                   child: Container(
                     height: 60.0,
