@@ -4,7 +4,6 @@ import 'package:flutter_todo/models/task.dart';
 import 'package:flutter_todo/widgets/todo.dart';
 
 class TaskPage extends StatefulWidget {
-
   final Task task;
 
   const TaskPage({Key key, @required this.task}) : super(key: key);
@@ -14,12 +13,11 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-
   String taskTitle = "";
 
   @override
   void initState() {
-    if(widget.task != null) {
+    if (widget.task != null) {
       taskTitle = widget.task.title;
     }
     super.initState();
@@ -65,9 +63,9 @@ class _TaskPageState extends State<TaskPage> {
                             color: Color(0xFF211552),
                           ),
                           onSubmitted: (value) async {
-                            if(value != "") {
+                            if (value != "") {
                               DatabaseHelper databaseHelper = DatabaseHelper();
-                              if(widget.task == null) {
+                              if (widget.task == null) {
                                 Task newTask = Task(
                                   title: value,
                                 );
@@ -100,9 +98,45 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                     ),
                   ),
-                  Todo(
-                    text: "First",
-                    isDone: true,
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.0
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 20.0,
+                              width: 20.0,
+                              margin: EdgeInsets.only(
+                                right: 16.0,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6.0),
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: Color(0xFF868290),
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/images/check_icon.png",
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                  decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Add todo to your task",
+                              )),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
