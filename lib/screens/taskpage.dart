@@ -128,12 +128,11 @@ class _TaskPageState extends State<TaskPage> {
                         controller: TextEditingController()
                           ..text = taskDescription,
                         onSubmitted: (value) async {
-                          print(value);
-                          print(taskId);
                           if (value != "") {
-                            if (taskId != null) {
+                            if (taskId != 0) {
                               await databaseHelper.updateTaskDescription(
-                                  taskId, value);
+                                taskId, value);
+                              taskDescription = value;
                             }
                           }
                           todoNode.requestFocus();
@@ -209,6 +208,7 @@ class _TaskPageState extends State<TaskPage> {
                           Expanded(
                             child: TextField(
                               focusNode: todoNode,
+                              controller: TextEditingController()..text = "",
                               onSubmitted: (value) async {
                                 if (value != "") {
                                   DatabaseHelper databaseHelper =
@@ -221,6 +221,7 @@ class _TaskPageState extends State<TaskPage> {
                                     );
                                     await databaseHelper.insertTodo(newTodo);
                                     print("New todo created!");
+                                    todoNode.requestFocus();
                                     setState(() {});
                                   }
                                 }
@@ -243,13 +244,11 @@ class _TaskPageState extends State<TaskPage> {
                   bottom: 24.0,
                   right: 24.0,
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TaskPage(task: null),
-                        ),
-                      );
+                    onTap: () async {
+                      if(taskId != 0) {
+                        await databaseHelper.deleteTask(taskId);
+                        Navigator.pop(context);
+                      }
                     },
                     child: Container(
                       height: 60.0,
