@@ -29,6 +29,11 @@ class DatabaseHelper {
     return taskId;
   }
 
+  Future<void> updateTaskTitle(int taskId, String newTitle) async {
+    Database db = await database();
+    await db.rawUpdate("UPDATE tasks SET title = '$newTitle' WHERE id = '$taskId'");
+  }
+
   Future<void> insertTodo(Todo todo) async {
     Database db = await database();
     await db.insert('todos', todo.toMap(),

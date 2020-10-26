@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) =>
                                         TaskPage(task: snapshot.data[index]),
                                   ),
-                                );
+                                ).then((value) {
+                                  setState(() {});
+                                });
                               },
                               child:
                                   TaskCard(title: snapshot.data[index].title),

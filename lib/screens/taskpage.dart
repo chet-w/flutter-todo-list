@@ -103,7 +103,8 @@ class _TaskPageState extends State<TaskPage> {
                                 });
                                 print("New task created!");
                               } else {
-                                print("Update the task!");
+                                await databaseHelper.updateTaskTitle(taskId, value);
+                                print("Updated the task!");
                               }
                               descriptionNode.requestFocus();
                             }
