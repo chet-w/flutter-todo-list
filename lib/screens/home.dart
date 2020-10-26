@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/database_helper.dart';
 import 'package:flutter_todo/screens/taskpage.dart';
 import 'package:flutter_todo/widgets/taskcard.dart';
 
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,19 +35,21 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView(children: [
-                      TaskCard(
-                        title: "Get stated",
-                      ),
-                      TaskCard(
-                        title: "New card",
-                        description: "Some description!",
-                      ),
-                      TaskCard(),
-                      TaskCard(),
-                      TaskCard(),
-                    ]),
-                  )
+                    child: FutureBuilder(
+                      initialData: [],
+                      future: databaseHelper.getTasks(),
+                      builder: (context, snapshot) {
+                        return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return TaskCard(
+                              title: snapshot.data[index].title
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
               Positioned(
@@ -68,8 +73,8 @@ class _HomePageState extends State<HomePage> {
                             Color(0xFF7349FE),
                             Color(0xFF643FDB),
                           ],
-                        begin: Alignment(0.0, -1.0),
-                        end: Alignment(0.0, 1.0),
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
                         ),
                         borderRadius: BorderRadius.circular(16.0)),
                     child: Image(
