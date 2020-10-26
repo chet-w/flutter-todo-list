@@ -54,8 +54,10 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {});
                                 });
                               },
-                              child:
-                                  TaskCard(title: snapshot.data[index].title),
+                              child: TaskCard(
+                                title: snapshot.data[index].title,
+                                description: snapshot.data[index].description,
+                              ),
                             );
                           },
                         );

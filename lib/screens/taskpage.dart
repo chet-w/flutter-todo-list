@@ -16,6 +16,7 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   String taskTitle = "";
   int taskId = 0;
+  String taskDescription = "";
   DatabaseHelper databaseHelper = DatabaseHelper();
 
   FocusNode titleNode;
@@ -27,9 +28,9 @@ class _TaskPageState extends State<TaskPage> {
   @override
   void initState() {
     if (widget.task != null) {
-      print("task from home page: ${widget.task.toMap()}");
       taskTitle = widget.task.title;
       taskId = widget.task.id;
+      taskDescription = widget.task.description;
       contentVisible = true;
     }
 
@@ -96,14 +97,16 @@ class _TaskPageState extends State<TaskPage> {
                                 Task newTask = Task(
                                   title: value,
                                 );
-                                taskId = await databaseHelper.insertTask(newTask);
+                                taskId =
+                                    await databaseHelper.insertTask(newTask);
                                 setState(() {
                                   contentVisible = true;
                                   taskTitle = value;
                                 });
                                 print("New task created!");
                               } else {
-                                await databaseHelper.updateTaskTitle(taskId, value);
+                                await databaseHelper.updateTaskTitle(
+                                    taskId, value);
                                 print("Updated the task!");
                               }
                               descriptionNode.requestFocus();
@@ -122,7 +125,17 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       child: TextField(
                         focusNode: descriptionNode,
-                        onSubmitted: (value) {
+                        controller: TextEditingController()
+                          ..text = taskDescription,
+                        onSubmitted: (value) async {
+                          print(value);
+                          print(taskId);
+                          if (value != "") {
+                            if (taskId != null) {
+                              await databaseHelper.updateTaskDescription(
+                                  taskId, value);
+                            }
+                          }
                           todoNode.requestFocus();
                         },
                         decoration: InputDecoration(
@@ -148,11 +161,18 @@ class _TaskPageState extends State<TaskPage> {
                           return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return TodoWidget(
-                                text: snapshot.data[index].title,
-                                isDone: snapshot.data[index].isDone == 0
-                                    ? false
-                                    : true,
+                              return GestureDetector(
+                                onTap: () async {
+                                  int newIsDoneValue = snapshot.data[index].isDone == 0 ? 1 : 0;
+                                  await databaseHelper.updateTodoDone(snapshot.data[index].id, newIsDoneValue);
+                                  setState(() {});
+                                },
+                                child: TodoWidget(
+                                  text: snapshot.data[index].title,
+                                  isDone: snapshot.data[index].isDone == 0
+                                      ? false
+                                      : true,
+                                ),
                               );
                             },
                           );
@@ -193,7 +213,7 @@ class _TaskPageState extends State<TaskPage> {
                                 if (value != "") {
                                   DatabaseHelper databaseHelper =
                                       DatabaseHelper();
-                                  if (widget.task != null) {
+                                  if (taskId != null) {
                                     Todo newTodo = Todo(
                                       title: value,
                                       taskId: taskId,
