@@ -96,7 +96,11 @@ class _TaskPageState extends State<TaskPage> {
                                 Task newTask = Task(
                                   title: value,
                                 );
-                                await databaseHelper.insertTask(newTask);
+                                taskId = await databaseHelper.insertTask(newTask);
+                                setState(() {
+                                  contentVisible = true;
+                                  taskTitle = value;
+                                });
                                 print("New task created!");
                               } else {
                                 print("Update the task!");
