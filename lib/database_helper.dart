@@ -10,9 +10,9 @@ class DatabaseHelper {
       join(await getDatabasesPath(), 'tasks.db'),
       onCreate: (db, version) async {
         await db.execute(
-            "CREATE TABLE tasks(id INTERGER PRIMARY KEY, title TEXT, description TEXT)");
+            "CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, description TEXT)");
         await db.execute(
-            "CREATE TABLE todos(id INTERGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER)");
+            "CREATE TABLE todos(id INTEGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER)");
         return db;
       },
       version: 1,
@@ -20,9 +20,13 @@ class DatabaseHelper {
   }
 
   Future<void> insertTask(Task task) async {
+    int taskId = 0;
     Database db = await database();
     await db.insert('tasks', task.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+        conflictAlgorithm: ConflictAlgorithm.replace).then((value) {
+      taskId = value;
+    });
+    return taskId;
   }
 
   Future<void> insertTodo(Todo todo) async {
@@ -42,9 +46,9 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Todo>> getTodos() async {
+  Future<List<Todo>> getTodos(int taskId) async {
     Database db = await database();
-    List<Map<String, dynamic>> todos = await db.query('todos');
+    List<Map<String, dynamic>> todos = await db.rawQuery("SELECT * FROM todos WHERE taskId = $taskId");
     return List.generate(
       todos.length,
       (index) {
