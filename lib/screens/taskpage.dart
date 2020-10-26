@@ -4,6 +4,11 @@ import 'package:flutter_todo/models/task.dart';
 import 'package:flutter_todo/widgets/todo.dart';
 
 class TaskPage extends StatefulWidget {
+
+  final Task task;
+
+  const TaskPage({Key key, @required this.task}) : super(key: key);
+
   @override
   _TaskPageState createState() => _TaskPageState();
 }
@@ -50,11 +55,15 @@ class _TaskPageState extends State<TaskPage> {
                           onSubmitted: (value) async {
                             if(value != "") {
                               DatabaseHelper databaseHelper = DatabaseHelper();
-                              Task newTask = Task(
-                                title: value,
-                              );
-                              await databaseHelper.insertTask(newTask);
-                              print("New task created!");
+                              if(widget.task == null) {
+                                Task newTask = Task(
+                                  title: value,
+                                );
+                                await databaseHelper.insertTask(newTask);
+                                print("New task created!");
+                              } else {
+                                print("Update the task!");
+                              }
                             }
                           },
                         ),
